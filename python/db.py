@@ -14,4 +14,4 @@ cur.execute('''CREATE TABLE IF NOT EXISTS SW (test text)''')
 # Daten in die Datenbank einfügen
 
 def add (table, value):
-    cur.execute("INSERT INTO table (test) VALUE (?)")
+    cur.execute("INSERT INTO str(table) (test) VALUE (?)")
