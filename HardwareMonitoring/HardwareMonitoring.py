@@ -3,7 +3,7 @@ import psutil
 import unittest
 import re
 
-current_temp = wmi.WMI(namespace="root\\wmi")                                                   #Die Temperatur funktioniert nicht wirklich es wird immer der selbe wert angezeigt...¯\_(ツ)_/¯
+current_temp = wmi.WMI(namespace="root\\wmi")            #Die Temperatur funktioniert nicht wirklich es wird immer der selbe wert angezeigt...¯\_(ツ)_/¯
 cpu_temp = (current_temp.MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature / 10.0)-273.15
 
 cpu_kurz=round(cpu_temp, 2)
