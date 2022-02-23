@@ -7,12 +7,12 @@ current_temp = wmi.WMI(namespace="root\\wmi") #Die Temperatur funktioniert nicht
 cpu_temp = (current_temp.MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature / 10.0)-273.15
 cpu_kurz=round(cpu_temp, 2)
 
-def get_cpu_usage():
-    return psutil.cpu_percent(5)
-
 user_list=psutil.users()
 user_str="".join(map(str,user_list))
 username = re.search('=(.+?),', user_str).group(1)
+
+def get_cpu_usage():
+    return psutil.cpu_percent(5)
 
 print(username)
 print(cpu_kurz)
