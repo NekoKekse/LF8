@@ -1,8 +1,8 @@
 import sqlite3
 
-dbfile = "database.db"
+dbFile = "database.db"
 
-con = sqlite3.connect(dbfile)
+con = sqlite3.connect(dbFile)
 cur = con.cursor()
 class DB:
     def build():
