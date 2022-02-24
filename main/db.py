@@ -1,12 +1,10 @@
 import sqlite3
 
-dbFile = "database.db"
-
-con = sqlite3.connect(dbFile)
-cur = con.cursor()
-
 class DB:
-    def build():
+    def build(databseFile):
+        con = sqlite3.connect(databseFile)
+        cur = con.cursor()
+
         sqlCreateTable = '''CREATE TABLE IF NOT EXISTS hw (
             Datum date,
             Zeit time,
@@ -23,8 +21,12 @@ class DB:
         cur.execute(sqlCreateTable)
 
         con.commit()
+        con.close()
 
-    def add(date, time, acpu, agpu, aram, anetz, tcpu, tgpu, tram, max_disk_space, used_disk_space):
+    def add(databseFile, date, time, acpu, agpu, aram, anetz, tcpu, tgpu, tram, max_disk_space, used_disk_space):
+        con = sqlite3.connect(databseFile)
+        cur = con.cursor()
+
         sqlInsert = "INSERT INTO hw (Datum, Zeit, CPU_Auslastung, GPU_Auslastung, RAM_Auslastung, NetzwerkAuslastung, CPU_Temperatur, GPU_Temperatur, RAM_Temperatur, FestplattenSpeicher_Maximal, FestplattenSpeicher_Frei) \
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
 
@@ -33,11 +35,17 @@ class DB:
         cur.execute(sqlInsert, sqlInsertData)
 
         con.commit()
+        con.close()
 
-    def select(date):
+    def select(databseFile, date):
+        con = sqlite3.connect(databseFile)
+        cur = con.cursor()
+
         cur.execute("SELECT * FROM hw WHERE Datum = ?", (date,))
 
         hwdata = cur.fetchall()
 
         for data in hwdata:
             print(data)
+
+        con.close()
