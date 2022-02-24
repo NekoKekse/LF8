@@ -1,3 +1,4 @@
+from lib2to3.pgen2.token import EQUAL
 import sys
 
 if __name__ == '__main__':
@@ -5,11 +6,11 @@ if __name__ == '__main__':
         print('normal')
     else:
         print(sys.argv[1])
-        if sys.argv[1]=='':
-            print('normal')
-        elif sys.argv[1]=='-L' or '-l':
+        if sys.argv[1] == '-L':
             print('Log')
-        elif sys.argv[1]=='-D' or '-d' and len(sys.argv)==1:
+        elif sys.argv[1]=='-D' and len(sys.argv)==1:
             print('debug')
         else:
-            print('Use: -D/-d (Debug Mode)')
+            print('''Use: 
+-D      Debug Mode
+-L      Erstelle Log''')
