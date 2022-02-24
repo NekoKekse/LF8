@@ -9,11 +9,9 @@ class DB:
             Datum date,
             Zeit time,
             CPU_Auslastung int,
-            GPU_Auslastung int,
             RAM_Auslastung int,
             NetzwerkAuslastung int,
             CPU_Temperatur double(10, 2),
-            GPU_Temperatur double(10, 2),
             FestplattenSpeicher_Maximal double(10, 2),
             FestplattenSpeicher_Frei double(10, 2));'''
 
@@ -22,14 +20,14 @@ class DB:
         con.commit()
         con.close()
 
-    def add(databseFile, date, time, acpu, agpu, aram, anetz, tcpu, tgpu, max_disk_space, used_disk_space):
+    def add(databseFile, date, time, acpu, aram, anetz, tgpu, max_disk_space, used_disk_space):
         con = sqlite3.connect(databseFile)
         cur = con.cursor()
 
-        sqlInsert = "INSERT INTO hw (Datum, Zeit, CPU_Auslastung, GPU_Auslastung, RAM_Auslastung, NetzwerkAuslastung, CPU_Temperatur, GPU_Temperatur, FestplattenSpeicher_Maximal, FestplattenSpeicher_Frei) \
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+        sqlInsert = "INSERT INTO hw (Datum, Zeit, CPU_Auslastung, RAM_Auslastung, NetzwerkAuslastung, CPU_Temperatur, FestplattenSpeicher_Maximal, FestplattenSpeicher_Frei) \
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
-        sqlInsertData = (date, time, acpu, agpu, aram, anetz, tcpu, tgpu, max_disk_space, used_disk_space)
+        sqlInsertData = (date, time, acpu, aram, anetz, tcpu, max_disk_space, used_disk_space)
 
         cur.execute(sqlInsert, sqlInsertData)
 
