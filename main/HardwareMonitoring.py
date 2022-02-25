@@ -1,60 +1,83 @@
 #repo Import
-import wmi
 import psutil
 import unittest
 import re
 import urllib.request
 
 #Temperatur Check
-current_temp = wmi.WMI(namespace="root\\wmi")#Die Temperatur funktioniert nicht wirklich es wird immer der selbe wert angezeigt...¯\_(ツ)_/¯
-cpu_temp = (current_temp.MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature / 10.0)-273.15
-cpu_kurz=round(cpu_temp, 2)
+class monitor:
+    def temp(self):
+        #Temperatur Check
+        if platform.system=='Windows':
+            import wmi
+            current_temp = wmi.WMI(namespace="root\\wmi") #Die Temperatur funktioniert nicht wirklich es wird immer der selbe wert angezeigt...¯\_(ツ)_/¯ kann an dem Laptop liegen oder generelles Problem 
+            cpu_temp = (current_temp.MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature / 10.0)-273.15
+            return round(cpu_temp, 2)
+    
+    def user(self):
+        #User Check
+        user_list=psutil.users()
+        user_str="".join(map(str,user_list))
+        username = re.search('=(.+?),', user_str).group(1)
+        return username[1:-1],'ist eingeloggt'
+    
+    def disk(self):
+        #Variablen für Speicherplatz Abfrage
+        disk_name = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+        fehler = 0
+        for i in disk_name:
+            try:
+                print(i + ":/ benutzt " + str(psutil.disk_usage(i + ':/')).partition('percent=')[2][0:-1] + "% Festplattenspeicher")
+            except OSError as err:
+                #print(i +':/ ist nicht angeschlossen')
+                fehler = fehler + 1
+        
+    def get_cpu_usage(self):
+        #CPU Auslastung Abfrage
+        return psutil.cpu_percent(5)
+    def get_ram_usage(self):
+        #RAM Auslastung Abfrage in MB
+        return int(psutil.virtual_memory().total - psutil.virtual_memory().available)
 
-#User Check
-user_list=psutil.users()
-user_str="".join(map(str,user_list))
-username = re.search('=(.+?),', user_str).group(1)
+    def get_ram_usage_prct(self):
+        #RAM Auslastung Abfrage in Prozent
+        return psutil.virtual_memory().percent
+        
+    def connect(self, google='http://google.com'):
+        #Netzwerk Test (ist Google erreichbar?)
+        try:
+            urllib.request.urlopen(google)
+            return True
+        except:
+            return False
 
-#Variablen für Speicherplatz Abfrage
-disk_name = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-fehler = 0
+print(psutil.users())
 
-#CPU Auslastung Abfrage
-def get_cpu_usage():
-    return psutil.cpu_percent(5)
-
-#Speicherplatz Abfrage
-for i in disk_name:
-    try:
-        print(i + ":/ benutzt " + str(psutil.disk_usage(i + ':/')).partition('percent=')[2][0:-1] + "% Festplattenspeicher")
-    except OSError as err:
-        #print(i +':/ ist nicht angeschlossen')
-        fehler = fehler + 1
-
-#RAM Auslastung Abfrage in MB
-def get_ram_usage():
-    return int(psutil.virtual_memory().total - psutil.virtual_memory().available)
-
-#RAM Auslastung Abfrage in Prozent
-def get_ram_usage_prct():
-    return psutil.virtual_memory().percent
-
-#Netzwerk Test (ist Google erreichbar?)
-def connect(google='http://google.com'):
-    try:
-        urllib.request.urlopen(google)
-        return True
-    except:
-        return False
-
+# monitor.temp
+# monitor.user
+# monitor.
 
 #Ergebnisse der Tests werden ausgegeben
-print(username[1:-1],'ist eingeloggt')
-print(cpu_kurz,'°C warm')
-print('Die CPU Auslastung beträgt: {}%'.format(get_cpu_usage()))
-print('{} MB RAM werden genutzt'.format(int(get_ram_usage() / 1024 / 1024)))
-print('{}% RAM werden genutzt'.format(get_ram_usage_prct()))
-print('Eine Internetverbindung ist vorhanden' if connect() else 'Kein Internet!')
+
+# print(cpu_kurz,'°C warm')
+# print('Die CPU Auslastung beträgt: {}%'.format(get_cpu_usage()))
+# print('{} MB RAM werden genutzt'.format(int(get_ram_usage() / 1024 / 1024)))
+# print('{}% RAM werden genutzt'.format(get_ram_usage_prct()))
+# print('Eine Internetverbindung ist vorhanden' if connect() else 'Kein Internet!')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #Unittests
