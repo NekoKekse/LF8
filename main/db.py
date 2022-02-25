@@ -24,8 +24,8 @@ class DB:
         con = sqlite3.connect(databseFile)
         cur = con.cursor()
 
-        sqlInsert = "INSERT INTO hw (Datum, Zeit, CPU_Auslastung, RAM_Auslastung, NetzwerkAuslastung, CPU_Temperatur, RAM_Temperatur, FestplattenSpeicher_Maximal, FestplattenSpeicher_Frei) \
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
+        sqlInsert = "INSERT INTO hw (Datum, Zeit, CPU_Auslastung, RAM_Auslastung, NetzwerkAuslastung, CPU_Temperatur, FestplattenSpeicher_Maximal, FestplattenSpeicher_Frei) \
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
         sqlInsertData = (date, time, acpu, aram, anetz, tcpu, max_disk_space, used_disk_space)
 
