@@ -3,11 +3,14 @@ from sqltest import dbtest
 from datetime import datetime
 
 class mainfunktions():
+    '''Basics Funktions for Appication'''
     def date(self):
+        '''Give Date yyyy mm dd'''
         x = datetime.now()
         return x.strftime("%Y-%m-%d")
 
     def time(self):
+        '''Give Time HH MM SS'''
         x = datetime.now()
         return x.strftime("%H:%M:%S")
 
