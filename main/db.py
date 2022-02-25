@@ -24,8 +24,8 @@ class DB:
         con = sqlite3.connect(databseFile)
         cur = con.cursor()
 
-        sqlInsert = "INSERT INTO hw (Datum, Zeit, CPU_Auslastung, RAM_Auslastung, NetzwerkAuslastung, CPU_Temperatur, FestplattenSpeicher_Maximal, FestplattenSpeicher_Frei) \
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+        sqlInsert = "INSERT INTO hw (Datum, Zeit, CPU_Auslastung, RAM_Auslastung, NetzwerkAuslastung, CPU_Temperatur, RAM_Temperatur, FestplattenSpeicher_Maximal, FestplattenSpeicher_Frei) \
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
 
         sqlInsertData = (date, time, acpu, aram, anetz, tcpu, max_disk_space, used_disk_space)
 
@@ -34,11 +34,28 @@ class DB:
         con.commit()
         con.close()
 
+    def remove(databaseFile, date):
+        con = sqlite3.connect(databaseFile)
+        cur = con.cursor()
+
+        sqlRemove = "DELETE FROM hw WHERE Datum = ?"
+
+        sqlRemoveData = (date,)
+        
+        cur.execute(sqlRemove, sqlRemoveData)
+
+        con.commit()
+        con.close()
+
     def select(databseFile, date):
         con = sqlite3.connect(databseFile)
         cur = con.cursor()
 
-        cur.execute("SELECT * FROM hw WHERE Datum = ?", (date,))
+        sqlSelect = "SELECT * FROM hw WHERE Datum = ?"
+
+        sqlSelectData = (date,)
+
+        cur.execute(sqlSelect, sqlSelectData)
 
         hwdata = cur.fetchall()
 
