@@ -8,12 +8,12 @@ class DB:
         sqlCreateTable = '''CREATE TABLE IF NOT EXISTS hw (
             Datum date,
             Zeit time,
-            CPU_Auslastung int,
-            RAM_Auslastung int,
-            NetzwerkAuslastung int,
-            CPU_Temperatur double(10, 2),
-            FestplattenSpeicher_Maximal double(10, 2),
-            FestplattenSpeicher_Frei double(10, 2));'''
+            tem_cpu int,
+            used_cpu_percent int,
+            used_disk_percent int,
+            free_disk_gb double(10, 2),
+            user text,
+            connection bool);'''
 
         cur.execute(sqlCreateTable)
 
