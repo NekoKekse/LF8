@@ -40,12 +40,12 @@ def used_disk_percent():
 
 def free_disk_gb():
     '''Returns free space on disk'''
-    disk_name = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T","U", "V", "W", "X", "Y", "Z"]
+    disk_name = psutil.disk_partitions()
     file_system = ""
     fehler = 0
     for i in disk_name:
         try:
-            file_system = (i,str(round(((((psutil.disk_usage(i + ':/').free) /1024 ) /1024 ) /1024 ),2)))
+            file_system = (i,str(round(((((psutil.disk_usage(str(i)).free) /1024 ) /1024 ) /1024 ),2)))
         except OSError as err:
             # print(i +':/ ist nicht angeschlossen')
             fehler = fehler + 1
@@ -79,6 +79,10 @@ def connection(url='http://google.com'):
 
 if __name__=='__main__':
     print(str(tem_cpu()) + ' # ' + str(used_cpu_percent()) + ' # ' + str(used_disk_percent()) + ' # ' + str(free_disk_gb()) + ' # ' + str(user()) + ' # ' + str(connection()))
+
+partitions = psutil.disk_partitions()
+for p in partitions:
+    print(p.mountpoint)
 
 #Ergebnisse der Tests werden ausgegeben
 
