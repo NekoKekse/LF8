@@ -28,11 +28,11 @@ def used_cpu_percent():
 
 def used_disk_percent():
     # Variablen für Speicherplatz Abfrage
-    disk_name = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T","U", "V", "W", "X", "Y", "Z"]
+    disk_name = psutil.disk_partitions()
     fehler = 0
     for i in disk_name:
         try:
-            file_system = (i + ":/ benutzt", psutil.disk_usage(i + ':/').percent, "% Festplattenspeicher")
+            file_system = (i.mountpoint + ' ' + str(psutil.disk_usage(i.mountpoint).percent) + "%")
         except OSError as err:
             # print(i +':/ ist nicht angeschlossen')
             fehler = fehler + 1
@@ -45,7 +45,7 @@ def free_disk_gb():
     fehler = 0
     for i in disk_name:
         try:
-            file_system = (i,str(round(((((psutil.disk_usage(str(i)).free) /1024 ) /1024 ) /1024 ),2)))
+            file_system = (i.mountpoint + ' ' + str(round(((((psutil.disk_usage(i.mountpoint).free) /1024 ) /1024 ) /1024 ),2)))
         except OSError as err:
             # print(i +':/ ist nicht angeschlossen')
             fehler = fehler + 1
