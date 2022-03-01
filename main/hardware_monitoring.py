@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 '''Hardware Data Part'''
 import psutil
-from platform import platform
+from platform import system
 import re
 import urllib.request
+
 
 from psutil import cpu_times_percent
 
@@ -12,12 +13,14 @@ from psutil import cpu_times_percent
 def tem_cpu():
     '''Return CPU temp'''
     import platform
-    if platform.system=='Windows':
+    if platform.system()=='Windows':
         import wmi
-        current_temp = wmi.WMI(namespace="root\\wmi") #Die Temperatur funktioniert nicht wirklich es wird immer der selbe wert angezeigt...¯\_(ツ)_/¯ kann an dem Laptop liegen oder generelles Problem 
+        current_temp = wmi.WMI(namespace="root\\wmi") #Die Temperatur funktioniert nicht wirklich es wird immer der selbe wert angezeigt...¯\_(ツ)_/¯ kann an dem Laptop liegen oder generelles Problem
         cpu_temp = (current_temp.MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature / 10.0)-273.15
         return round(cpu_temp, 2)
         # Überarbeiten: https://psutil.readthedocs.io/en/latest/index.html?highlight=sensors_temperatures#sensors
+    elif platform.system()=='Linux':
+        return psutil.sensors_temperatures()
 
 def used_cpu_percent():
     '''Return CPU usage in percet'''
@@ -53,6 +56,7 @@ def connection(url='http://google.com'):
         return True
     except ValueError:
         return False
+
 
 
 if __name__=='__main__':
