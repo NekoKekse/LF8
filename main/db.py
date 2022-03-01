@@ -13,7 +13,7 @@ def build(databseFile):
         tem_cpu int,
         used_cpu_percent int,
         used_disk_percent int,
-        free_disk_gb double(10, 2),
+        free_disk_gb txt,
         user text,
         connection bool);'''
 

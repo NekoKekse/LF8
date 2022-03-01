@@ -18,4 +18,4 @@ pwd = 'test123'
 subject = 'Python-Mail :)'
 MAIL_FROM = 'test@example.com'
 RCPT_TO  = 'test@example.com'
-server = smtplib.SMTP('secure.emailsrvr.com:587')
+server = 'secure.emailsrvr.com:587'
