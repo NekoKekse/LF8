@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 '''Hardware Data Part'''
-
-#repo Import
 import psutil
 from platform import platform
-import unittest
 import re
 import urllib.request
 

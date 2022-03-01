@@ -41,7 +41,7 @@ def remove(databaseFile, date):
     con = sqlite3.connect(databaseFile)
     cur = con.cursor()
 
-        sqlRemove = "DELETE FROM hw WHERE date = ?"
+    sqlRemove = "DELETE FROM hw WHERE date = ?"
 
     sqlRemoveData = (date,)
     

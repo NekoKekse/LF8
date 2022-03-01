@@ -59,7 +59,7 @@ def main_service():
     Then save the data in the database (responsible function: DB.add) and start again (loop)'''
     while True:
         # Read Data
-        data = [config.filename, current_time(), current_date(), monitor.tem_cpu(), monitor.used_cpu_percent(), monitor.used_disk_percent(), monitor.free_disk_gb(), monitor.user(), monitor.connection()]
+        #data = [config.filename, current_time(), current_date(), monitor.tem_cpu(), monitor.used_cpu_percent(), monitor.used_disk_percent(), monitor.free_disk_gb(), monitor.user(), monitor.connection()]
 
         # Create Object
         data_log = [ValueTest(data[3], data[4], data[5], data[8])]
@@ -74,7 +74,7 @@ def main_service():
 
         if not all(tests) is True:
             print('Value(s) above max!!!')
-            email(data)
+            #email(data)
             sleep(5)
         else:
             print('All values ok!')
