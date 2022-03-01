@@ -27,27 +27,45 @@ def used_cpu_percent():
     return psutil.cpu_percent(5)
 
 def used_disk_percent():
-    '''Return disk-space usage in percet'''
-    return psutil.virtual_memory().percent
-
-def free_disk_gb():
-    '''Returns free space on disk'''
+    # Variablen für Speicherplatz Abfrage
     disk_name = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T","U", "V", "W", "X", "Y", "Z"]
     fehler = 0
     for i in disk_name:
         try:
-            print(i + ":/ hat " + str(round(((((psutil.disk_usage(i + ':/').free) /1024 ) /1024 ) /1024 ),2)),'GB frei')
+            file_system = (i + ":/ benutzt", psutil.disk_usage(i + ':/').percent, "% Festplattenspeicher")
         except OSError as err:
             # print(i +':/ ist nicht angeschlossen')
             fehler = fehler + 1
-    # Überarbeiten: Wofür alle Partitionen? oder alternativ String mit allen partitionen hintereinander
+    return file_system
+
+def free_disk_gb():
+    '''Returns free space on disk'''
+    disk_name = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T","U", "V", "W", "X", "Y", "Z"]
+    file_system = ""
+    fehler = 0
+    for i in disk_name:
+        try:
+            file_system = (i,str(round(((((psutil.disk_usage(i + ':/').free) /1024 ) /1024 ) /1024 ),2)))
+        except OSError as err:
+            # print(i +':/ ist nicht angeschlossen')
+            fehler = fehler + 1
+    return file_system
+
+def get_ram_usage():
+    # RAM Auslastung Abfrage in MB
+    return int(((psutil.virtual_memory().total - psutil.virtual_memory().available) /1024) /1024)
+
+def get_ram_usage_prct():
+    # RAM Auslastung Abfrage in Prozent
+    return psutil.virtual_memory().percent
+
 
 def user():
     '''Retuns registered user/s'''
     user_list=psutil.users()
     user_str="".join(map(str,user_list))
-    #username = re.search('=(.+?),', user_str).group(1)
-    return user_list #name[1:-1]
+    username = re.search('=(.+?),', user_str).group(1)
+    return username[1:-1]
 
 def connection(url='http://google.com'):
     '''Ping'''
