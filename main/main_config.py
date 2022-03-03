@@ -5,8 +5,8 @@ import smtplib
 ### Max Values ###
 tem_cpu_max=90
 used_cpu_percent=70
+used_ram_percent=70
 used_disk_percent=70
-
 
 ### DB filename ###
 filename='main.db'

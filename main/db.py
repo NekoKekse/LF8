@@ -10,11 +10,11 @@ def build(databseFile):
     sqlCreateTable = '''CREATE TABLE IF NOT EXISTS hw (
         date date,
         time time,
-        tem_cpu int,
-        used_cpu_percent int,
-        used_disk_percent int,
-        free_disk_gb txt,
-        user text,
+        tem_cpu VARCHAR(255),
+        used_cpu_percent VARCHAR(255),
+        used_ram_percent VARCHAR(255),
+        used_disk_percent VARCHAR(255),
+        user VARCHAR(255),
         connection bool);'''
 
     cur.execute(sqlCreateTable)
@@ -22,14 +22,15 @@ def build(databseFile):
     con.commit()
     con.close()
 
-def add(databseFile, date, time, tem_cpu, used_cpu_percent, used_disk_percent, free_disk_gb, user, connection):
+def add(databseFile, date, time, tem_cpu, used_cpu_percent, used_ram_percent, used_disk_percent, user, connection):
+    '''Add Database and Table'''
     con = sqlite3.connect(databseFile)
     cur = con.cursor()
 
-    sqlInsert = "INSERT INTO hw (date, time, tem_cpu, used_cpu_percent, used_disk_percent, free_disk_gb, user, connection) \
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+    sqlInsert = '''INSERT INTO hw (date, time, tem_cpu, used_cpu_percent, used_ram_percent, used_disk_percent, user, connection)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?);'''
 
-    sqlInsertData = (date, time, tem_cpu, used_cpu_percent, used_disk_percent, free_disk_gb, user, connection)
+    sqlInsertData = (date, time, tem_cpu, used_cpu_percent, used_ram_percent, used_disk_percent, user, connection)
 
     cur.execute(sqlInsert, sqlInsertData)
 
@@ -55,15 +56,11 @@ def select(databseFile, date):
     con = sqlite3.connect(databseFile)
     cur = con.cursor()
 
-    sqlSelect = "SELECT * FROM hw WHERE date = ?"
+    sqlSelect = '''SELECT * FROM hw WHERE date=?'''
 
     sqlSelectData = (date,)
-
     cur.execute(sqlSelect, sqlSelectData)
-
     hwdata = cur.fetchall()
-
-    for data in hwdata:
-        print(data)
-
     con.close()
+
+    return hwdata
